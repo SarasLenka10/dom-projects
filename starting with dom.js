@@ -1,4 +1,4 @@
-//EXAMINE THE DOCUMENT 
+// EXAMINE THE DOCUMENT //
 
 // console.dir(document);
 // console.log(document.URL);
