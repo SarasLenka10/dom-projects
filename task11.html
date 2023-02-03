@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <style>
+        body {
+            background-color: rgba(255, 136, 0, 0.888);
+            /* background-image: url("henrik-l-36sBViiRU3I-unsplash.jpg");
+            background-size:cover;
+            background-repeat:no-repeat; */
+        }
+        form {border: tomato 2px solid;
+            border-style:groove;
+            align-content: center;
+            margin:auto;
+            width: max-content;
+            padding:8px;
+            background: ghostwhite;
+            }
+        h3 {
+            color: tomato;
+            text-align: center;
+        }
+        
+    </style>
+</head>
+<body>
+    <form onsubmit="userSignup(event)">
+        <h3>Book a call</h3>
+        <h6 text-align: centre; >Book a call slot and our representative will call you within 1hr of selected time.</h6>
+        <hr>
+        <label class="form label">Name:</label>
+        <input type="text" id="name" class="form-control" name="name" required/>
+        <label class="form label">Email:</label>
+        <input type="text" id="email" class="form-control" email="email" required/>
+        <label class="form label">Phone:</label>
+        <input type="tel" id="phone" class="form-control" phone="phone" />
+        <label class="form label">Time for call:</label><br>
+        <input type="date" id="date" class="form-control-md" time="date" />
+        <input type="time" id="time" class="form-control-md" date="time" /><br><br>
+        <input type="submit" id="submit" class="form-control" style="background-color:tomato ; color: white" text-align: centre value="GET A CALL" />
+    </form>
+    <script>
+        function userSignup(event){
+            event.preventDefault();
+            // const name = event.target.name.value;
+            // const mail = event.target.email.value;
+            // const phone = event.target.phone.value;
+            // const date = event.target.date.value;
+            // const time = event.target.time.value;
+            let signup = {
+                name:document.getElementById('name').value,
+                emailId:document.getElementById('email').value,
+                phone:document.getElementById('phone').value,
+                date:document.getElementById('date').value,
+                time:document.getElementById('time').value
+            }
+            
+            let myobj1 = JSON.stringify(signup);
+            localStorage.setItem(signup.emailId, myobj1)
+            
+            let myobj = JSON.parse(localStorage.getItem(signup.emailId));   
+        }
+        </script> 
+</body>
+</html>
