@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script> -->
+    <style>
+        body {
+            background-color: rgba(255, 136, 0, 0.888);
+            /* background-image: url("henrik-l-36sBViiRU3I-unsplash.jpg");
+            background-size:cover;
+            background-repeat:no-repeat; */
+        }
+
+        form {
+            border: tomato 2px solid;
+            border-style: groove;
+            align-content: center;
+            margin: auto;
+            width: max-content;
+            padding: 8px;
+            background: ghostwhite;
+        }
+
+        h3 {
+            color: tomato;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <form onsubmit="userSignup(event)">
+        <h3>Book a call</h3>
+        <h6 text-align: centre;>Book a call slot and our representative will call you within 1hr of selected time.</h6>
+        <hr>
+        <label class="form label">Name:</label>
+        <input type="text" id="name" class="form-control" name="name" required />
+        <label class="form label">Email:</label>
+        <input type="text" id="email" class="form-control" email="email" required />
+        <label class="form label">Phone:</label>
+        <input type="tel" id="phone" class="form-control" phone="phone" />
+        <input type="submit" id="submit" class="form-control" style="background-color:tomato ; color: white" text-align:
+            centre value="GET A CALL" />
+    </form><br>
+    <ul id="list" class="list-group">
+    </ul>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
+    <script>
+        var url = "https://crudcrud.com/api/7d67608fd5304751b16040dd090872f9/appointmentData"
+
+        function show(obj) {
+            const ul = document.getElementById('list');
+            ul.innerHTML += `<li>${obj.name} - ${obj.emailId} - ${obj.phone} 
+                        <button onclick='editUser(event, "${obj._id}","${obj.name}", "${obj.emailId}","${obj.phone}")'>Edit</button>
+                        <button onclick='delUser(event ,"${obj._id}")'>Delete</button></li>`
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            axios.get(`${url}`)
+                .then((response) => {
+                    console.log(response.data)
+                    const ul = document.getElementById('list');
+                    response.data.forEach((ele) => {
+                        // console.log(ele);
+                        show(ele);
+                    })
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        })
+
+        function userSignup(event) {
+            event.preventDefault();
+            let signup = {
+                name: document.getElementById('name').value,
+                emailId: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+            }
+            axios.post(`${url}`, signup)
+                .then((response) => {
+                    console.log(response.data);
+                    show(signup);
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        }
+
+        function delUser(event, key) {
+            axios.delete(`${url}/${key}`)
+                .then((response) => {
+                    event.target.parentNode.remove();
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        }
+
+        function editUser(event, userId, name, email, phone){
+            
+            document.getElementById('name').value = name;
+            document.getElementById('email').value = email;
+            document.getElementById('phone').value = phone;
+            delUser(event, userId);
+
+        }
+    </script>
+</body>
+
+</html>
