@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form onsubmit="addproduct(event)">
+        <label>Selling Price :</label>
+        <input type="text" id="sp" name="selling price">
+        <label>Product Name :</label>
+        <input type="text" id="productName" name="product name">
+        <label>Choose a category :</label>
+        <select id="category">
+            <option value="Electronics">Electronics</option>
+            <option value="Skincare">Skincare</option>
+            <option value="Food items">Food Items</option>
+        </select>
+        <button type="submit" id="addProduct">Add Product</button>
+    </form>
+    <h2>Products</h2>
+    <h3>Electronic Items</h3>
+    <ul id="electronics"></ul>
+    <h3>Skincare Products</h3>
+    <ul id="skincare"></ul>
+    <h3>Food Items</h3>
+    <ul id="foodItems"></ul>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
+<script>
+    var url = "https://crudcrud.com/api/6c575483dd0f48638f45e0ba333cddf9/productsList"
+
+    function listOnScreen(obj) {
+        if (obj.category == 'Electronics') {
+            const ul = document.getElementById('electronics')
+            ul.innerHTML += `<li>${obj.price}-${obj.name} : ${obj.category}
+            <button onclick="deleteProduct(event,'${obj._id}')">Delete Product</button></li>`
+        }
+        else if (obj.category == 'Skincare') {
+            const ul1 = document.getElementById('skincare')
+            ul1.innerHTML += `<li>${obj.price}-${obj.name} : ${obj.category}
+            <button onclick="deleteProduct(event,'${obj._id}')">Delete Product</button></li>`
+        }
+        else if (obj.category == 'Food items') {
+            const ul2 = document.getElementById('foodItems')
+            ul2.innerHTML += `<li>${obj.price}-${obj.name} : ${obj.category}
+            <button onclick="deleteProduct(event,'${obj._id}')">Delete Product</button></li>`
+        }
+    }
+
+    function addproduct(event) {
+        event.preventDefault();
+
+        const product = {
+            price: document.getElementById('sp').value,
+            name: document.getElementById('productName').value,
+            category: document.getElementById('category').value,
+        }
+
+        axios.post(`${url}`, product)
+            .then((response) => {
+                listOnScreen(product);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        axios.get(`${url}`)
+            .then((response) => {
+                response.data.forEach(ele => {
+                    console.log(ele);
+                    listOnScreen(ele);
+                })
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+
+    })
+
+    function deleteProduct(event, productId) {
+        axios.delete(`${url}/${productId}`)
+            .then((response) => {
+                event.target.parentNode.remove();
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+</script>
+
+</html>
